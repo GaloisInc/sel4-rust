@@ -8,13 +8,13 @@
 	branch = rust-2015-09-21-do-not-delete
 [submodule "src/jemalloc"]
 	path = src/jemalloc
-	url = https://github.com/aisamanra/jemalloc.git
+	url = https://github.com/GaloisInc/rs_jemalloc.git
 [submodule "src/rust-installer"]
 	path = src/tools/rust-installer
 	url = https://github.com/rust-lang/rust-installer.git
 [submodule "src/liblibc"]
 	path = src/liblibc
-	url = https://github.com/aisamanra/liblibc.git
+	url = https://github.com/GaloisInc/rs_liblibc.git
 [submodule "src/doc/nomicon"]
 	path = src/doc/nomicon
 	url = https://github.com/rust-lang-nursery/nomicon.git
