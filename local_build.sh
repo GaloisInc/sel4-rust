@@ -14,7 +14,7 @@ curl -O https://raw.githubusercontent.com/GaloisInc/rs_seL4_tools/master/common-
 cd ..
 
 TGT=x86_64-sel4-robigalia
-RUST_TARGET_PATH=targets
+export RUST_TARGET_PATH=targets
 
 # build the compiler
 ./x.py build --target=$TGT
