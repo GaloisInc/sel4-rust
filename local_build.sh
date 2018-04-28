@@ -11,6 +11,7 @@ cd targets
 curl -O https://raw.githubusercontent.com/GaloisInc/rs_seL4_tools/master/common-tool/x86_64-sel4-robigalia.json
 curl -O https://raw.githubusercontent.com/GaloisInc/rs_seL4_tools/master/common-tool/i686-sel4-robigalia.json
 curl -O https://raw.githubusercontent.com/GaloisInc/rs_seL4_tools/master/common-tool/arm-sel4-robigalia.json
+cd ..
 
 TGT=x86_64-sel4-robigalia
 RUST_TARGET_PATH=targets
