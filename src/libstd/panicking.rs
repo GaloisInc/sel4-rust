@@ -100,9 +100,9 @@ static mut HOOK: Hook = Hook::Default;
 /// ```
 #[stable(feature = "panic_hooks", since = "1.10.0")]
 pub fn set_hook(hook: Box<Fn(&PanicInfo) + 'static + Sync + Send>) {
-    if thread::panicking() {
-        panic!("cannot modify the panic hook from a panicking thread");
-    }
+   // if thread::panicking() {
+   //     panic!("cannot modify the panic hook from a panicking thread");
+   // }
 
     unsafe {
         HOOK_LOCK.write();
@@ -534,8 +534,22 @@ pub fn begin_panic<M: Any + Send>(msg: M, file_line_col: &(&'static str, u32, u3
     // be performed in the parent of this thread instead of the thread that's
     // panicking.
 
-    rust_panic_with_hook(Box::new(msg), file_line_col)
+    rust_panic_with_hook(Box::new(msg), file_line_col)    
 }
+
+
+// Hack for seL4 debug print
+#[no_mangle]
+extern "C" {
+  fn printf(val: *const i8);
+}
+
+fn println_sel4(s: String) {
+  unsafe {
+    printf((s + "\n\0").as_ptr() as *const i8);
+  }
+}
+
 
 /// Executes the primary logic for a panic, including checking for recursive
 /// panics and panic hooks.
@@ -548,6 +562,17 @@ pub fn begin_panic<M: Any + Send>(msg: M, file_line_col: &(&'static str, u32, u3
 fn rust_panic_with_hook(msg: Box<Any + Send>,
                         file_line_col: &(&'static str, u32, u32)) -> ! {
     let (file, line, col) = *file_line_col;
+
+    {
+        let m = match msg.downcast_ref::<&'static str>() {
+            Some(s) => *s,
+            None => match msg.downcast_ref::<String>() {
+                Some(s) => &s[..],
+                None => "Box<Any>",
+            }
+        };
+        println_sel4(format!(">>> seL4 thread panicked at '{}', {}:{}:{}", m, file, line, col));
+    }
 
     let panics = update_panic_count(1);
 
