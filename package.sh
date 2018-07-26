@@ -1,6 +1,5 @@
 #!/bin/sh
-
-export TGT=x86_64-sel4-robigalia
+export TGT=x86_64-sel4-none
 export RUST_TARGET_PATH=`pwd`/targets
 
 # fetch the rlibs needed to assemble the sysroots into a single tarball
